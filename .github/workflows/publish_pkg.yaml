@@ -1,0 +1,67 @@
+name: Publish Python Package
+on:
+    release:
+        types: [created]
+jobs:
+    deploy:
+        runs-on: ubuntu-20.04
+        steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-python@v2
+        - name: Install dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install setuptools wheel twine
+        - name: Build and publish
+          env:
+            TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+            TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+          run: |
+            python setup.py sdist bdist_wheel
+            twine upload --verbose --repository-url https://test.pypi.org/legacy/ -u ${{ secrets.TWINE_USERNAME }} -p ${{ secrets.TWINE_PASSWORD }} dist/*
+Copy the setup.cfg, setup.py, README.rst, MANIFEST.in, and LICENSE.txt files from the django_cityloc_pkg/ folder from the previous lesson to the django_cityloc_pkg_mahirerden folder.:
+
+Edit the setup.cfg file and change your package name from django_cityloc_pkg to django_cityloc_pkg_mahirerdenso we don't get a conflict in PyPI.
+
+Add, commit, and push the files to the GitHub repository:
+
+In GitHub, we'll next create a new release for your project. Click on Create a new release:
+
+Click on Choose a tag and in the text field, enter the version of 0.0.1:
+
+
+
+Enter Initial Release for the title, and click on Publish release:
+
+Clicking Publish release should trigger the publish_pkg.yaml workflow. Go to Actions to see the workflow triggered:
+
+Expand Build and publish:
+
+
+
+You should see the package being built and pushed to PyPi:
+
+In your PyPi account, confirm that your package was published. Your package can now be installed from PyPi.
+
+
+
+Additional Resources
+reStructuredText Quick Reference
+Online rst editor
+Documenting Python with Sphinx
+PREVIOUS ACTIVITY
+Lesson Slides
+NEXT ACTIVITY
+Advanced DevOps: Linux & Network Tools	
+Jump to...
+Jump to...
+Skip Table of contents
+Table of contents
+1. Introduction to Package Management
+2. Exercise: Basic Packaging
+3. Exercise: Packaging with GitHub
+Skip Online users
+Hide Online users blockOnline users
+2 online users (last 1 minutes)
+Mahir Erden
+Other users (1)
